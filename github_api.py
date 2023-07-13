@@ -59,6 +59,15 @@ class GitUserData:
                     except:pass
 
             await parse_repo_apis(api_data, session)
+        
+        
+        
+        # ** Create separate modules to handle data processing, analytics, and visualization.
+        # TODO for GitHub API Integration:
+            # ? Implement methods in this class to fetch:
+            # ? repository details, commit history, pull requests, and other relevant information.
+            # ? Once data is all fetched and organized, follow up with data processing and analytics
+            
             
 
 async def main():
