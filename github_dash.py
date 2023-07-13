@@ -1,11 +1,9 @@
 import asyncio
 import json
-import re
 
 from aiohttp import ClientSession
 from pathlib import Path
-from bs4 import BeautifulSoup
-
+from pprint import pprint
 
 def fetch_user():
     git_user = json.load(open(Path.cwd() / 'git_user.json'))
@@ -29,30 +27,39 @@ class GitUserData:
         async with session.get(self.url, headers=headers) as response:
             main_json = json.loads(json.dumps(await response.json()))
 
-            name, site_admin, company, twitter_username, public_repos, followers_count, \
-            following_count, account_created, user_bio = (
-                main_json.get('name', 'No Name'),
-                main_json.get('site_admin', False),
-                main_json.get('company'),
-                main_json.get('twitter_username'),
-                main_json.get('public_repos', 0),
-                main_json.get('followers', 0),
-                main_json.get('following', 0),
-                main_json.get('created_at', None),
-                main_json.get('bio', None)
-            )
+            main_data = {
+                        'name': main_json.get('name', None),
+                        'user_avatar': main_json.get('avatar_url', None),
+                        'site_admin': main_json.get('site_admin', False),
+                        'company': main_json.get('company', None),
+                        'twitter_username': main_json.get('twitter_username', None),
+                        'public_repos': main_json.get('public_repos', 0),
+                        'public_gists': main_json.get('public_gists', 0),
+                        'followers_count': main_json.get('followers', 0),
+                        'following_count': main_json.get('following', 0),
+                        'account_created': main_json.get('created_at', None),
+                        'user_bio': main_json.get('bio', None),
+                        'user_blog': main_json.get('blog', None)
+                        }
 
-            values = ' '.join([str(i) for i in main_json.values()]).split()
-            all_values_with_apis = list(filter(lambda i: re.findall(rf'https://|{self.url}/(\w+)', i), values)) #Trying to use re more frequently
+            api_data = { 
+                    'main_github_page': main_json.get('html_url', None),
+                    'followers_url': main_json.get('followers_url', None),
+                    'following_url': main_json.get('following_url', None),
+                    'gists_url': main_json.get('gists_url', None),
+                    'repos_url': main_json.get('repos_url', None)
+                    }
+            # Only fetching repo data for now
+            async def parse_repo_apis(repo_data, session):
+                async with session.get(repo_data.get('repos_url'), headers=headers) as response:
+                    try:
+                        repos_data = json.loads(json.dumps(await response.json()))
+                        # repos_json = open(Path.cwd() / 'repos_data.json', 'w', encoding='utf-8')
+                        pprint(repos_data, sort_dicts=False)
+                    except:pass
 
-    #async def parse_value_gits(self, session):
-
-        
+            await parse_repo_apis(api_data, session)
             
-    
-    
-        
-        
 
 async def main():
     async with ClientSession() as session:
