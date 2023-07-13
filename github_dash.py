@@ -23,9 +23,9 @@ class GitUserData:
     
     async def parse_main_git(self, session):
         async with session.get(self.url) as response:
-            await response.json()
+            main_json = await response.json().text()
             
-            return
+            return main_json
     
     
         
@@ -40,3 +40,13 @@ async def main():
 
 if __name__ == '__main__':
     asyncio.run(main())
+
+
+
+
+
+
+
+
+
+    
