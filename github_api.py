@@ -50,7 +50,7 @@ class GitUserData:
                         'gists_url': main_json.get('gists_url', None),
                         'repos_url': main_json.get('repos_url', None)
                         }
-            # Only fetching repo data for now
+            
             async def parse_url_apis(api_data, session):
                 url_info = {}
                 async with session as session:
@@ -65,22 +65,26 @@ class GitUserData:
                 return url_info
 
             api_info = await parse_url_apis(api_data, session)
-        return main_data, api_info
+        full_data = {**main_data, **api_info}
+        self.dump_data(full_data)
+        return full_data
     
+    def dump_data(self, full_data):
+        path = open(Path(__file__).parent.absolute() / 'full_data.json', 'w')
+        json.dump(full_data, path, indent=4)
+
     @staticmethod
     def load_json(file):
         return json.load(open(Path(__file__).parent.absolute() / file))
     
     @staticmethod
     def parse_date(date_):
-        if date_ is None:
+        if not date_:
             return None
         
         date_ = ' '.join(date_.split('T'))[:-1]
         return dt.strptime(date_, '%Y-%m-%d %H:%M:%S').strftime('%I:%M:%S%p %m-%d-%Y')
-    
-    def clean_data(self):
-        pass
+        
         
         # ** Create separate modules to handle data processing, analytics, and visualization.
         # TODO for GitHub API Integration:
@@ -96,8 +100,9 @@ async def main():
     
     async with ClientSession() as session:
         git_user_data = GitUserData(*config)
-        main_data, repos_data = await git_user_data.parse_git(session)
-        pprint(repos_data, sort_dicts=False)
+        await asyncio.gather(
+            git_user_data.parse_git(session)
+        )
 
 if __name__ == '__main__':
     asyncio.run(main())
