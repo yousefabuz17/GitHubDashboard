@@ -1,7 +1,7 @@
 
 
 
-# <img src="logo.png" alt="GitHub Dashboard Logo" width="150">GitHub Dashboard
+# <img src="icons/logo.png" alt="GitHub Dashboard Logo" width="150">GitHub Dashboard
 
 GitHub Dashboard is a tool designed for heavy GitHub users. It provides a comprehensive overview of your GitHub repositories, displaying statistics and visual graphs on commit frequency, pull requests, and more.
 
@@ -33,7 +33,17 @@ GitHub Dashboard is a tool designed for heavy GitHub users. It provides a compre
 - Explore your GitHub repositories, view statistics, and analyze visual graphs.
 
 # Current Status
-The GitHub Dashboard project is currently in the development stage. I have successfully implemented the backend functionality to retrieve data from the GitHub API and perform basic analytics. The frontend interface using Flask templates has been set up to showcase the fetched data.
+The GitHub Dashboard project is currently in the development stage. I have successfully implemented the backend functionality to retrieve data from the GitHub API and perform basic analytics.
+
+### Progress
+- [x] Retrieve data from GitHub API
+- [x] Perform basic analytics
+- [ ] Create user-friendly interface
+- [ ] Implement advanced analytics
+- [ ] Create GUI dashboard for data visualization
+- [ ] Add user customization options
+- [x] Add user authentication and authorization
+- [ ] Add support for notifications and alerts
 
 # Future Updates
 I have an exciting roadmap for future updates of GitHub Dashboard. Here are some planned enhancements:
@@ -43,5 +53,4 @@ I have an exciting roadmap for future updates of GitHub Dashboard. Here are some
 - User customization options for dashboard layout and preferences
 - User authentication and authorization to ensure secure access
 - Support for notifications and alerts for repository activities
-- Stay tuned for these exciting updates as we continue to enhance GitHub - Dashboard and make it even more powerful for GitHub users.
 
